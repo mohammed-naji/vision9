@@ -20,3 +20,8 @@ Route::get('/', function () {
 Route::get('about', function() {
     return 'About US';
 });
+
+
+Route::get('contact', function() {
+    return 'Contact US';
+});
