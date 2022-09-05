@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TestController;
+// use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\TestController;
 
 // Route::get('url', Action);
 // Route::post('url', Action);
@@ -78,9 +78,26 @@ use App\Http\Controllers\TestController;
 
 // include 'admin.php';
 
-Route::get('welcome/{name}/{age}/{username}', function($name, $age, $username) {
-    return "Welcome $name, your age is $age, username : $username";
-})->whereAlpha('name')->whereNumber('age')->whereAlphaNumeric('username')->name('welcome');
+// Route::get('welcome/{name}/{age}/{username}', function($name, $age, $username) {
+//     return "Welcome $name, your age is $age, username : $username";
+// })->whereAlpha('name')->whereNumber('age')->whereAlphaNumeric('username')->name('welcome');
 
-Route::get('/', [TestController::class, 'welcome'])->name('dd');
-Route::get('/about-us', [TestController::class, 'about'])->name('about');
+// Route::get('/', [TestController::class, 'welcome'])->name('dd');
+// Route::get('/about-us', [TestController::class, 'about'])->name('about');
+
+// use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\NewController;
+
+// Route::get('/', [NewController::class, 'index'])->name('home');
+// Route::get('/about', [NewController::class, 'about'])->name('about');
+// Route::get('/contact', [NewController::class, 'contact'])->name('contact');
+// Route::get('/post/{id?}', [NewController::class, 'post'])->name('post');
+
+use App\Http\Controllers\Site1Controller;
+use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\NewController;
+
+// Route::get('/contact', [NewController::class, 'contact'])->name('contact');
+// Route::post('/contact', [NewController::class, 'contact_data'])->name('contact_data');
+
+Route::get('site1/about', [Site1Controller::class, 'index'])->name('index');
