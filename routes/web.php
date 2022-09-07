@@ -94,10 +94,18 @@
 // Route::get('/post/{id?}', [NewController::class, 'post'])->name('post');
 
 use App\Http\Controllers\Site1Controller;
+use App\Http\Controllers\Site2Controller;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\NewController;
 
 // Route::get('/contact', [NewController::class, 'contact'])->name('contact');
 // Route::post('/contact', [NewController::class, 'contact_data'])->name('contact_data');
 
-Route::get('site1/about', [Site1Controller::class, 'index'])->name('index');
+Route::get('site1', [Site1Controller::class, 'index'])->name('index');
+
+Route::prefix('site2')->name('site2.')->group(function() {
+    Route::get('/', [Site2Controller::class, 'index'])->name('index');
+    Route::get('/about', [Site2Controller::class, 'about'])->name('about');
+    Route::get('/contact', [Site2Controller::class, 'contact'])->name('contact');
+    Route::get('/post', [Site2Controller::class, 'post'])->name('post');
+});
