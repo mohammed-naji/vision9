@@ -49,14 +49,60 @@ class FormController extends Controller
 
     public function form3_data(Request $request)
     {
+        // $request->validate([
+        //     'name' => 'required|min:2',
+        //     'email' => 'required',
+        //     'age' => 'required|numeric|gt:18|lt:100'
+        // ]);
 
-        $request->validate([
-            'name' => 'required|min:2',
-            'email' => 'required',
-            'age' => 'required'
-        ]);
+        $rules = [];
+        foreach($request->all() as $key => $value) {
+            $rules[$key] = 'required';
+        }
+        $request->validate($rules);
+
+        $name = htmlspecialchars( $request->name );
 
         dd($request->all());
 
+    }
+
+    public function form4()
+    {
+        return view('forms.form4');
+    }
+
+    public function form4_data(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'image' => ['required', 'image', 'mimes:jpg,png', 'max:100']
+        ]);
+
+        $name = rand().time().$request->file('image')->getClientOriginalName();
+        // a.png => 654489726465a.png
+        // 669879656546_646132133113_67978232136465_n.jpg
+        // $ex = $request->file('image')->getClientOriginalExtension();
+        // $name = rand().'_'.rand().rand().'_'.rand().'_n.'.$ex;
+        // ee.png => 89766546_54265485563254789655_55454460_n.png
+        $request->file('image')->move(public_path('uploads'), $name);
+    }
+
+    public function full_form()
+    {
+        return view('forms.full_form');
+    }
+
+    public function full_form_data(Request $request)
+    {
+
+        dd($request->all());
+
+        $request->validate([
+            'name' => 'required|min:3|max:50'
+        ]);
+
+
+        return view('forms.full_form');
     }
 }
