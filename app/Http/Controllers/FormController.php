@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactUsMail;
+use App\Mail\TestMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use PHPUnit\Util\Test;
 
 class FormController extends Controller
 {
@@ -35,11 +39,15 @@ class FormController extends Controller
     public function form2_data(Request $request)
     {
         // dd($request->all());
-        $name = $request->name;
-        $email = $request->email;
-        $message = $request->message;
+        // $name = $request->name;
+        // $email = $request->email;
+        // $message = $request->message;
 
-        return view('forms.form2_data', compact('name', 'email', 'message'));
+        Mail::to('admin@example.com')->send(new ContactUsMail($request->except('_token')));
+
+
+
+        // return view('forms.form2_data', compact('name', 'email', 'message'));
     }
 
     public function form3()
