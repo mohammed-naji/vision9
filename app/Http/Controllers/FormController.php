@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMail;
 use App\Mail\ContactUsMail;
 use App\Mail\TestMail;
 use Illuminate\Http\Request;
@@ -112,5 +113,22 @@ class FormController extends Controller
 
 
         return view('forms.full_form');
+    }
+
+    public function contact_us()
+    {
+        return view('forms.contact_us');
+    }
+
+    public function contact_us_data(Request $request)
+    {
+
+        $imgname = rand().time().$request->file('image')->getClientOriginalName();
+        $request->file('image')->move(public_path('uploads'), $imgname);
+        $data = $request->except('_token');
+        $data['image'] = $imgname;
+        // dd($data);
+
+        Mail::to('tareqsourani01@gmail.com')->send(new ContactMail($data));
     }
 }
