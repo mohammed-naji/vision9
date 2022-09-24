@@ -94,6 +94,7 @@
 // Route::get('/post/{id?}', [NewController::class, 'post'])->name('post');
 
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\Site1Controller;
 use App\Http\Controllers\Site2Controller;
 use App\Http\Controllers\Site3Controller;
@@ -139,3 +140,11 @@ Route::post('/full_form', [FormController::class, 'full_form_data'])->name('full
 
 Route::get('contact-us', [FormController::class, 'contact_us'])->name('contact_us');
 Route::post('contact-us', [FormController::class, 'contact_us_data'])->name('contact_us_data');
+
+// CRUD
+// C => Create
+// R => Read
+// U => Update
+// D => Delete
+
+Route::get('posts', [PostController::class, 'index'])->name('posts.index');
