@@ -35,6 +35,33 @@
         .btn-show {
             width: 100%;
         }
+
+        .search-wrapper {
+            position: relative;
+        }
+        .search-result {
+            /* border: 1px solid #f00; */
+            box-shadow: 0 0 10px #eee;
+            position: absolute;
+            width: 100%;
+        }
+
+        .search-result a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            background: rgb(246, 251, 255);
+            padding: 5px 15px;
+            border-bottom: 1px solid rgb(209, 209, 209);
+        }
+
+        .search-result a:hover {
+            background: rgb(219, 229, 237);
+        }
+
+        .search-result a:last-of-type {
+            border: 0
+        }
     </style>
 </head>
 <body>
@@ -51,7 +78,11 @@
                 </select>
             </div>
             <div class="col-8">
-                <input type="text" name="word" class="form-control" placeholder="Search here.." value="{{ request()->word }}">
+                <div class="search-wrapper">
+                    <input type="text" name="word" class="form-control" placeholder="Search here.." value="{{ request()->word }}">
+                    <div class="search-result">
+                    </div>
+                </div>
             </div>
             <div class="col-1">
                 <select name="count" class="form-select">
@@ -122,15 +153,20 @@
                 <td>{{ $post->updated_at }}</td>
                 <td>
                     <div class="btn-group">
-                        <a href="#" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                        <a href="{{ route('posts.show', $post->id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                        <button class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash"></i></button>
+                        <form class="d-none" action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                            @csrf
+                            @method('delete')
+                        </form>
+
                     </div>
                 </td>
             </tr>
             @endforeach
         </table>
-        {{ $posts->links() }}
+        {{ $posts->appends($_GET)->links() }}
     </div>
 
     <script>
@@ -142,6 +178,52 @@
         //     wrapper.style.width = '15%';
         //     form.style.width = '85%';
         // }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $('.btn-delete').click(function() {
+            var btn = $(this);
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                btn.next('form').submit();
+            }
+            })
+        })
+        // Swal.fire({
+        // title: 'Error!',
+        // text: 'Do you want to continue',
+        // icon: 'error',
+        // confirmButtonText: 'Cool'
+        // })
+    </script>
+
+
+{{-- Search Box Ajax --}}
+    <script>
+        $('.search-wrapper input').on('keyup', function() {
+            var texttext = $(this).val();
+            $.ajax({
+                type: 'get',
+                url: '{{ route("posts.search") }}',
+                data: {
+                    txt: texttext
+                },
+                success: function(res) {
+                    console.log(res);
+                }
+            })
+            // console.log(txt);
+        })
     </script>
 </body>
 </html>

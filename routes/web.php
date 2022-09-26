@@ -104,6 +104,10 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/contact', [NewController::class, 'contact'])->name('contact');
 // Route::post('/contact', [NewController::class, 'contact_data'])->name('contact_data');
 
+Route::get('/', function() {
+    return 'Home Page';
+});
+
 Route::get('site1', [Site1Controller::class, 'index'])->name('index');
 
 Route::prefix('site2')->name('site2.')->group(function() {
@@ -148,3 +152,10 @@ Route::post('contact-us', [FormController::class, 'contact_us_data'])->name('con
 // D => Delete
 
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('posts/{id}', [PostController::class, 'show'])->name('posts.show');
+Route::delete('posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+Route::get('posts-trash', [PostController::class, 'trash'])->name('posts.trash');
+Route::get('posts-restore/{id}', [PostController::class, 'restore'])->name('posts.restore');
+Route::get('posts-forcedelete/{id}', [PostController::class, 'forcedelete'])->name('posts.forcedelete');
+
+Route::get('posts-search', [PostController::class, 'search'])->name('posts.search');
