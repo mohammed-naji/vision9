@@ -67,6 +67,45 @@ class PostController extends Controller
 
     public function search(Request $request)
     {
-        echo 'you search about ' .$request->txt;
+        $posts = Post::latest('id')->where('title', 'like', '%'.request()->text.'%')->paginate(10);
+
+        return $posts;
+    }
+
+    public function create()
+    {
+        return view('posts.create');
+    }
+
+    public function store(Request $request)
+    {
+        // Validate Data
+        // dd($request->all());
+        $request->validate([
+            'title' => 'required|min:3|max:100',
+            'content' => 'required',
+            'image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+        ]);
+
+        // Upload File
+        $img_name = rand().rand().$request->file('image')->getClientOriginalName();
+        $request->file('image')->move(public_path('uploads/posts'), $img_name);
+
+        // Add to Database
+        // $post = new Post();
+        // $post->title = $request->title;
+        // $post->image = $img_name;
+        // $post->content = $request->content;
+        // $post->save();
+
+        Post::create([
+            'title' => $request->title,
+            'image' => $img_name,
+            'content' => $request->content,
+        ]);
+
+        // Redirect
+        return redirect()->route('posts.index')->with('msg', 'Post added successfully');
+        // return redirect()->back();
     }
 }

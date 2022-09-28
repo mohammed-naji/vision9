@@ -98,6 +98,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\Site1Controller;
 use App\Http\Controllers\Site2Controller;
 use App\Http\Controllers\Site3Controller;
+use Database\Factories\PostFactory;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\NewController;
 
@@ -152,10 +153,24 @@ Route::post('contact-us', [FormController::class, 'contact_us_data'])->name('con
 // D => Delete
 
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+
+Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');
+
+Route::post('posts/store', [PostController::class, 'store'])->name('posts.store');
+
 Route::get('posts/{id}', [PostController::class, 'show'])->name('posts.show');
+
 Route::delete('posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+
 Route::get('posts-trash', [PostController::class, 'trash'])->name('posts.trash');
+
 Route::get('posts-restore/{id}', [PostController::class, 'restore'])->name('posts.restore');
+
 Route::get('posts-forcedelete/{id}', [PostController::class, 'forcedelete'])->name('posts.forcedelete');
 
 Route::get('posts-search', [PostController::class, 'search'])->name('posts.search');
+
+
+// Route::get('/{any}', function() {
+//     echo 'Not Found';
+// });

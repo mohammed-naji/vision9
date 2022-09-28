@@ -10,5 +10,11 @@ class Post extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'title',
+        'image',
+        'content',
+    ];
+
     // protected $table = 'my_posts';
 }

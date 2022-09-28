@@ -62,12 +62,20 @@
         .search-result a:last-of-type {
             border: 0
         }
+
+        img {
+            height: 80px;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
 
     <div class="container my-5">
-        <h1>All Posts</h1>
+        <div class="d-flex align-items-center justify-content-between">
+            <h1>All Posts</h1>
+            <a href="{{ route('posts.create') }}" class="btn btn-dark px-4"> <i class="fas fa-plus"></i> Add New Item</a>
+        </div>
         <form method="get" action="{{ route('posts.index') }}">
         <div class="row my-4">
             <div class="col-1">
@@ -81,6 +89,7 @@
                 <div class="search-wrapper">
                     <input type="text" name="word" class="form-control" placeholder="Search here.." value="{{ request()->word }}">
                     <div class="search-result">
+
                     </div>
                 </div>
             </div>
@@ -133,6 +142,14 @@
                     <div style="clear: both"></div>
                 </div> --}}
 
+                {{-- @dump(session('msg')) --}}
+
+        @if (session('msg'))
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ session('msg') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
 
 
         <table class="table table-bordered table-hover table-striped">
@@ -148,7 +165,7 @@
             <tr>
                 <td>{{ $post->id }}</td>
                 <td>{{ $post->title }}</td>
-                <td><img width="100" src="{{ $post->image }}" alt=""></td>
+                <td><img width="100" src="{{ asset('uploads/posts/'.$post->image) }}" alt=""></td>
                 <td>{{ $post->created_at }}</td>
                 <td>{{ $post->updated_at }}</td>
                 <td>
@@ -180,6 +197,7 @@
         // }
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -207,23 +225,53 @@
         // })
     </script>
 
-
-{{-- Search Box Ajax --}}
     <script>
+
+        setTimeout(() => {
+            $('.alert-success').fadeOut();
+        }, 3000);
+
         $('.search-wrapper input').on('keyup', function() {
-            var texttext = $(this).val();
-            $.ajax({
-                type: 'get',
-                url: '{{ route("posts.search") }}',
-                data: {
-                    txt: texttext
-                },
-                success: function(res) {
-                    console.log(res);
-                }
-            })
-            // console.log(txt);
+            let text = $(this).val();
+
+            console.log(text.length);
+            $('.search-result a').remove();
+            if(text.length >= 1) {
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route("posts.search") }}',
+                    data: {
+                        text: text
+                    },
+                    success: function(res) {
+
+
+                        res.data.forEach(element => {
+
+                            // console.log(element.title);
+                            let url = '{{ route("posts.index") }}/'+element.id;
+                            // let a = '<a href="'+url+'">'+element.title+'</a>';
+
+                            // let x = `
+                            // <div>
+                            //     <h2></h2>
+                            //     <p></p>
+                            //     <a></a>
+                            // </div>
+                            // `
+
+
+                            let a = `<a href="${url}">${element.title}</a>`;
+                            $('.search-result').append(a)
+                        });
+
+                        // console.log(res.data);
+                    }
+                })
+            }
         })
+
     </script>
+
 </body>
 </html>
