@@ -40,6 +40,7 @@
 <body>
 
     <div class="container my-5">
+        <a href="{{ route('posts.index') }}" class="btn btn-dark px-4"> <i class="fas fa-arrow-left"></i> Return Back</a>
         <h1>Deleted Posts</h1>
 
         <table class="table table-bordered table-hover table-striped">

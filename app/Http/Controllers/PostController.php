@@ -74,7 +74,8 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('posts.create');
+        $post = new Post();
+        return view('posts.create', compact('post'));
     }
 
     public function store(Request $request)
@@ -107,5 +108,39 @@ class PostController extends Controller
         // Redirect
         return redirect()->route('posts.index')->with('msg', 'Post added successfully');
         // return redirect()->back();
+    }
+
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+
+        return view('posts.edit', compact('post'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|min:3|max:100',
+            'content' => 'required',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+        ]);
+
+        $post = Post::findOrFail($id);
+
+        // Upload File
+        $img_name = $post->image;
+        if($request->hasFile('image')) {
+            $img_name = rand().rand().$request->file('image')->getClientOriginalName();
+            $request->file('image')->move(public_path('uploads/posts'), $img_name);
+        }
+
+        $post->update([
+            'title' => $request->title,
+            'image' => $img_name,
+            'content' => $request->content,
+        ]);
+
+        // Redirect
+        return redirect()->route('posts.index')->with('msg', 'Post updated successfully');
     }
 }

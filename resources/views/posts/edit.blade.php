@@ -12,9 +12,8 @@
 
     <div class="container my-5">
         <div class="d-flex align-items-center justify-content-between">
-            <h1>Add New Post</h1>
+            <h1>Update Post</h1>
             <a href="{{ route('posts.index') }}" class="btn btn-dark px-4"> <i class="fas fa-arrow-left"></i> Return Back</a>
-            {{-- <a onclick="history.back()" class="btn btn-dark px-4"> <i class="fas fa-arrow-left"></i> Return Back</a> --}}
         </div>
 
         @if ($errors->any())
@@ -27,12 +26,13 @@
             </div>
         @endif
 
-        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('put')
 
             @include('posts.form')
 
-            <button class="btn btn-success"> <i class="fas fa-plus"></i> Add</button>
+            <button class="btn btn-success"> <i class="fas fa-floppy-disk"></i> Update</button>
 
         </form>
 
