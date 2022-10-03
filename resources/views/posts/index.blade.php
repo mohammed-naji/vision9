@@ -74,6 +74,10 @@
             object-fit: cover;
         }
     </style>
+
+    <script>
+        // console.log(Number.MAX_VALUE + 5555);
+    </script>
 </head>
 
 <body>

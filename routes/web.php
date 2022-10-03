@@ -95,6 +95,7 @@
 
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RelationController;
 use App\Http\Controllers\Site1Controller;
 use App\Http\Controllers\Site2Controller;
 use App\Http\Controllers\Site3Controller;
@@ -178,3 +179,5 @@ Route::get('posts-search', [PostController::class, 'search'])->name('posts.searc
 // Route::get('/{any}', function() {
 //     echo 'Not Found';
 // });
+
+Route::get('one-to-one', [RelationController::class, 'one_to_one']);
