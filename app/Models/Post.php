@@ -17,4 +17,9 @@ class Post extends Model
     ];
 
     // protected $table = 'my_posts';
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

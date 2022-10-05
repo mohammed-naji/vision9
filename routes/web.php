@@ -181,3 +181,4 @@ Route::get('posts-search', [PostController::class, 'search'])->name('posts.searc
 // });
 
 Route::get('one-to-one', [RelationController::class, 'one_to_one']);
+Route::get('one-to-many', [RelationController::class, 'one_to_many']);
