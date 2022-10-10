@@ -184,6 +184,14 @@
                     <td>{{ $post->id }}</td>
                     <td>{{ $post->title }}</td>
                     <td>
+                        <form id="delete-form" class="d-none" action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                            @csrf
+                            @method('delete')
+                        </form>
+                        <form id="show-form" class="d-none" action="{{ route('posts.show', $post->id) }}" method="get">
+                            @csrf
+                            @method('delete')
+                        </form>
                         <a download href="{{ asset('uploads/posts/' . $post->image) }}">{{ $post->image }}</a>
                         <br>
                         <a download href="{{ asset('uploads/posts/' . $post->image) }}"><img width="100"
@@ -207,10 +215,7 @@
                             ><i
                                     class="fas fa-edit"></i></a>
                             <button class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash"></i></button>
-                            <form class="d-none" action="{{ route('posts.destroy', $post->id) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                            </form>
+
 
                         </div>
                     </td>
@@ -292,7 +297,8 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    btn.next('form').submit();
+                    // btn.next('form').submit();
+                    btn.parents('tr').find('#delete-form').submit();
                 }
             })
         })
